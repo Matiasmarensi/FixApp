@@ -1,0 +1,50 @@
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: next@15.0.0-rc.1
+npm ERR! Found: react@19.0.0
+npm ERR! node_modules/react
+npm ERR!   peer react@">=16.8.0" from @floating-ui/react-dom@2.1.3
+npm ERR!   node_modules/@floating-ui/react-dom
+npm ERR!     @floating-ui/react-dom@"^2.0.0" from @radix-ui/react-popper@1.2.7
+npm ERR!     node_modules/@radix-ui/react-popper
+npm ERR!       @radix-ui/react-popper@"1.2.7" from @radix-ui/react-menu@2.1.15
+npm ERR!       node_modules/@radix-ui/react-menu
+npm ERR!         @radix-ui/react-menu@"2.1.15" from @radix-ui/react-dropdown-menu@2.1.15
+npm ERR!         node_modules/@radix-ui/react-dropdown-menu
+npm ERR!   peer react@"^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" from @radix-ui/react-arrow@1.1.7
+npm ERR!   node_modules/@radix-ui/react-arrow
+npm ERR!     @radix-ui/react-arrow@"1.1.7" from @radix-ui/react-popper@1.2.7
+npm ERR!     node_modules/@radix-ui/react-popper
+npm ERR!       @radix-ui/react-popper@"1.2.7" from @radix-ui/react-menu@2.1.15
+npm ERR!       node_modules/@radix-ui/react-menu
+npm ERR!         @radix-ui/react-menu@"2.1.15" from @radix-ui/react-dropdown-menu@2.1.15
+npm ERR!         node_modules/@radix-ui/react-dropdown-menu
+npm ERR!   34 more (@radix-ui/react-collection, ...)
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^18.2.0 || 19.0.0-rc-cd22717c-20241013" from next@15.0.0-rc.1
+npm ERR! node_modules/next
+npm ERR!   next@"^15.0.0-rc.1" from the root project
+npm ERR!   peer next@"^13.2.0 || ^14.0 || ^15.0.0-rc.0" from @sentry/nextjs@9.27.0
+npm ERR!   node_modules/@sentry/nextjs
+npm ERR!     @sentry/nextjs@"9.27.0" from the root project
+npm ERR! 
+npm ERR! Conflicting peer dependency: react@19.0.0-rc-cd22717c-20241013
+npm ERR! node_modules/react
+npm ERR!   peer react@"^18.2.0 || 19.0.0-rc-cd22717c-20241013" from next@15.0.0-rc.1
+npm ERR!   node_modules/next
+npm ERR!     next@"^15.0.0-rc.1" from the root project
+npm ERR!     peer next@"^13.2.0 || ^14.0 || ^15.0.0-rc.0" from @sentry/nextjs@9.27.0
+npm ERR!     node_modules/@sentry/nextjs
+npm ERR!       @sentry/nextjs@"9.27.0" from the root project
+npm ERR! 
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR! 
+npm ERR! 
+npm ERR! For a full report see:
+npm ERR! C:\Users\matia\AppData\Local\npm-cache\_logs\2025-06-07T17_22_15_083Z-eresolve-report.txt
+
+npm ERR! A complete log of this run can be found in: C:\Users\matia\AppData\Local\npm-cache\_logs\2025-06-07T17_22_15_083Z-debug-0.log
