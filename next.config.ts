@@ -1,27 +1,22 @@
-import type { NextConfig } from "next";
-
+// next.config.js
 const { withSentryConfig } = require("@sentry/nextjs");
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your existing Next.js configuration
   experimental: {
-    instrumentationHook: true,
+    turbo: {
+      // Para desactivar turbopack, lo seteás en false en esta forma:
+      // Aunque no está documentado en todos lados, la forma que Next recomienda es usar `turbo: false` o deshabilitar el flag en CLI.
+      // Pero si da error, la forma segura es NO poner turbo o manejarlo por CLI.
+    },
   },
 };
 
-// Make sure adding Sentry options is the last code to run before exporting
 module.exports = withSentryConfig(nextConfig, {
   org: "matias-nu",
   project: "javascript-nextjs",
-
-  // Only print logs for uploading source maps in CI
-  // Set to `true` to suppress logs
   silent: !process.env.CI,
   authToken: process.env.SENTRY_AUTH_TOKEN,
   hideSourceMaps: true,
   disableLogger: true,
-
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
 });
-
-export default nextConfig;
