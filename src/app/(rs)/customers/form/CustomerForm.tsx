@@ -2,7 +2,12 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertCustomerSchema, type insertCustomerSchemaType } from "@/zod-schemas/customers";
+import { Form } from "@/components/ui/form";
+import {
+  insertCustomerSchema,
+  type insertCustomerSchemaType,
+  type selectCustomerSchemaType,
+} from "@/zod-schemas/customers";
 import { useSearchParams } from "next/navigation";
 
 type Props = {
@@ -49,6 +54,19 @@ export default function CustomerForm({ customer }: Props) {
     resolver: zodResolver(insertCustomerSchema),
     defaultValues,
   });
+  async function submitForm(data: insertCustomerSchemaType) {
+    console.log(data);
+  }
 
-  return <form>{/* tu formulario va acá */}</form>;
+  return (
+    <div className="flex flex-col gap-1 sm:px-8">
+      <div>
+        <h2 className="text-2xl font-bold">{customer?.id ? "Edit Customer" : "New Customer"}</h2>
+      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(submitForm)} className="flex flex-col sm:flex-row gap-4 sm:gap-8"></form>
+        <p>{JSON.stringify(form.getValues())}</p>
+      </Form>
+    </div>
+  );
 }

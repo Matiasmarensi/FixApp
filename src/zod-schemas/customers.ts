@@ -10,7 +10,7 @@ export const insertCustomerSchema = z.object({
 
   address1: z.string(),
 
-  address2: z.string(),
+  address2: z.string().nullable().optional(),
 
   city: z.string(),
 
@@ -21,11 +21,11 @@ export const insertCustomerSchema = z.object({
   zip: z.string(),
 
   phone: z.string(),
-  notes: z.string(),
+  notes: z.string().nullable().optional(),
   active: z.boolean(),
 });
 
 export const selectCustomerSchema = createSelectSchema(customers);
 
 export type insertCustomerSchemaType = z.infer<typeof insertCustomerSchema>;
-export type selectCustomerSchemaType = typeof selectCustomerSchema.type;
+export type selectCustomerSchemaType = z.infer<typeof selectCustomerSchema>;

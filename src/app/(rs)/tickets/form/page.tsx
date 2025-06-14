@@ -1,6 +1,7 @@
 import { getCustomer } from "@/lib/queries/getCustomer";
 import { getTicket } from "@/lib/queries/getTicket";
 import { Backbutton } from "@/components/Backbutton";
+import TicketForm from "./TicketForm";
 export const dynamic = "force-dynamic";
 
 export default async function TicketFormPage({
@@ -39,6 +40,7 @@ export default async function TicketFormPage({
           </>
         );
       }
+      return <TicketForm customer={customer} />;
     }
     if (ticketId) {
       const ticket = await getTicket(parseInt(ticketId));
@@ -52,7 +54,7 @@ export default async function TicketFormPage({
         );
       }
       const customer = await getCustomer(ticket.customerId);
-
+      return <TicketForm ticket={ticket} customer={customer} />;
       if (!customer) {
         return (
           <>

@@ -3,7 +3,7 @@ import { tickets } from "../db/schema";
 import { z } from "zod";
 
 export const insertTicketSchema = createInsertSchema(tickets, {
-  id: (schema) => schema.min(1, "ID is required"),
+  id: z.number().min(1).optional(),
   title: (schema) => schema.min(1, "Title is required"),
   description: (schema) => schema.min(1, "Description is required"),
   tech: (schema) => schema.email({ message: "Invalid email" }),
@@ -11,5 +11,5 @@ export const insertTicketSchema = createInsertSchema(tickets, {
 
 export const selectCustomerSchema = createSelectSchema(tickets);
 
-export type insterTicket = typeof insertTicketSchema.type;
-export type selectTicket = typeof selectCustomerSchema.type;
+export type InsertTicketSchemaType = z.infer<typeof insertTicketSchema>;
+export type SelectTicketSchemaType = z.infer<typeof selectCustomerSchema>;
