@@ -12,6 +12,9 @@ import {
 } from "@/zod-schemas/customers";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import TextAreaWithLabel from "@/components/inputs/TextAreaWithLabel";
+import SelectWithLabel from "@/components/inputs/SelectWithLabel";
+import { StateArray } from "@/constants/StateArray";
 
 type Props = {
   customer?: selectCustomerSchemaType;
@@ -75,12 +78,20 @@ export default function CustomerForm({ customer }: Props) {
             <InputWithLabel<insertCustomerSchemaType> fieldTitle="Address 1" nameInSchema="address1" {...form} />
             <InputWithLabel<insertCustomerSchemaType> fieldTitle="Address 2" nameInSchema="address2" {...form} />
             <InputWithLabel<insertCustomerSchemaType> fieldTitle="City" nameInSchema="city" {...form} />
+            <SelectWithLabel<insertCustomerSchemaType> fieldTitle="State" nameInSchema="state" data={StateArray} />
           </div>
           <div className="flex flex-col gap-4 w-full max-w-xs">
             <InputWithLabel<insertCustomerSchemaType> fieldTitle="Zip" nameInSchema="zip" {...form} />
             <InputWithLabel<insertCustomerSchemaType> fieldTitle="Email" nameInSchema="email" {...form} />
 
             <InputWithLabel<insertCustomerSchemaType> fieldTitle="Phone" nameInSchema="phone" {...form} />
+
+            <TextAreaWithLabel<insertCustomerSchemaType>
+              fieldTitle="Notes"
+              nameInSchema="notes"
+              {...form}
+              className="h-40"
+            />
             <div className="flex gap-2">
               <Button type="submit" variant="default" className="w-3/4">
                 Save
