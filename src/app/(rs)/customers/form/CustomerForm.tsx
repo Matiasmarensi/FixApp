@@ -17,7 +17,7 @@ import SelectWithLabel from "@/components/inputs/SelectWithLabel";
 import { StateArray } from "@/constants/StateArray";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import CheckboxWithLabel from "@/components/inputs/CheckboxwithLabel";
-import { Checkbox } from "@radix-ui/react-checkbox";
+
 type Props = {
   customer?: selectCustomerSchemaType;
 };
@@ -101,7 +101,7 @@ export default function CustomerForm({ customer }: Props) {
             />
             {isLoading ? (
               <p>Loading...</p>
-            ) : isManager ? (
+            ) : isManager && customer?.id ? (
               <CheckboxWithLabel<insertCustomerSchemaType>
                 fieldTitle="Active"
                 nameInSchema="active"

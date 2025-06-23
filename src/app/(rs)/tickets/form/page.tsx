@@ -7,6 +7,27 @@ import { Users, init as kindeInit } from "@kinde/management-api-js";
 
 export const dynamic = "force-dynamic";
 
+export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
+  const customerId = searchParams?.customerId;
+  const ticketId = searchParams?.ticketid;
+
+  if (customerId) {
+    return {
+      title: `Edit Customer ID #${customerId}`,
+      description: `Edit details for customer ID #${customerId}`,
+    };
+  } else if (ticketId) {
+    return {
+      title: `Edit Ticket ID #${ticketId}`,
+      description: `Edit details for ticket ID #${ticketId}`,
+    };
+  }
+  return {
+    title: "New Ticket Form",
+    description: "Create a new ticket",
+  };
+}
+
 export default async function TicketFormPage({
   searchParams,
 }: {

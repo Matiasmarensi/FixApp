@@ -29,7 +29,7 @@ export default function InputWithLabel<S>({ fieldTitle, nameInSchema, className,
               id={nameInSchema}
               {...field}
               {...props}
-              className={`w-full max-w-xs disabled:text-blue-500 dark:disabled:text-green-500 disabled:opacity-75 ${className}`}
+              className={`w-full max-w-xs disabled:text-blue-500 dark:disabled:text-green-300 disabled:opacity-75 ${className}`}
             />
           </FormControl>
           <FormMessage />
