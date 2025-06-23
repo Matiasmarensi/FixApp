@@ -29,7 +29,7 @@ export const tickets = pgTable("tickets", {
     .notNull(),
   title: varchar("title", { length: 30 }).notNull(),
   description: text("description").notNull(),
-  tech: varchar("tech", { length: 15 }).notNull().default("unassigned"),
+  tech: varchar("tech", { length: 30 }).notNull().default("unassigned"),
   completed: boolean("completed").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")

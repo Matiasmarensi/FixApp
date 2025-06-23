@@ -15,12 +15,15 @@ import { Button } from "@/components/ui/button";
 import TextAreaWithLabel from "@/components/inputs/TextAreaWithLabel";
 import SelectWithLabel from "@/components/inputs/SelectWithLabel";
 import { StateArray } from "@/constants/StateArray";
-
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 type Props = {
   customer?: selectCustomerSchemaType;
 };
 
 export default function CustomerForm({ customer }: Props) {
+  const { getPermission, getPermissions, isLoading } = useKindeBrowserClient();
+  const isManager = !isLoading && getPermission("manager")?.isGranted;
+
   const searchParams = useSearchParams();
   const hasCustomerId = searchParams.has("customerId");
 
@@ -68,7 +71,9 @@ export default function CustomerForm({ customer }: Props) {
   return (
     <div className="flex flex-col gap-1 sm:px-8">
       <div>
-        <h2 className="text-2xl font-bold">{customer?.id ? "Edit Customer" : "New Customer"}</h2>
+        <h2 className="text-2xl font-bold">
+          {customer?.id ? "Edit Customer" : "New Customer"} Customer {customer?.id ? `${customer.id}` : "Form"}
+        </h2>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(submitForm)} className="flex flex-col md:flex-row gap-4 md:gap-8">

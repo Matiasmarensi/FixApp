@@ -15,6 +15,13 @@
       "when": 1749402790793,
       "tag": "0001_giant_big_bertha",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750685919574,
+      "tag": "0002_motionless_carnage",
+      "breakpoints": true
     }
   ]
 }
