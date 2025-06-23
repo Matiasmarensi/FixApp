@@ -16,6 +16,8 @@ import TextAreaWithLabel from "@/components/inputs/TextAreaWithLabel";
 import SelectWithLabel from "@/components/inputs/SelectWithLabel";
 import { StateArray } from "@/constants/StateArray";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import CheckboxWithLabel from "@/components/inputs/CheckboxwithLabel";
+import { Checkbox } from "@radix-ui/react-checkbox";
 type Props = {
   customer?: selectCustomerSchemaType;
 };
@@ -97,6 +99,18 @@ export default function CustomerForm({ customer }: Props) {
               {...form}
               className="h-40"
             />
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : isManager ? (
+              <CheckboxWithLabel<insertCustomerSchemaType>
+                fieldTitle="Active"
+                nameInSchema="active"
+                message="Is this customer active?"
+                {...form}
+                className="flex items-center gap-2"
+              />
+            ) : null}
+
             <div className="flex gap-2">
               <Button type="submit" variant="default" className="w-3/4">
                 Save
