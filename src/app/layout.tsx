@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster as Sonner, ToasterProps } from "sonner";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -21,6 +23,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
+          <Toaster position="top-right" richColors closeButton duration={5000} className="z-50" />
         </ThemeProvider>
       </body>
     </html>

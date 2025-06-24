@@ -19,6 +19,9 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import CheckboxWithLabel from "@/components/inputs/CheckboxwithLabel";
 import { useAction } from "next-safe-action/hooks";
 import { saveCustomerAction } from "@/app/actions/saveCustomerAction";
+import { toast } from "sonner";
+import { LoaderCircle } from "lucide-react";
+import { DisplayServerActionResponse } from "@/components/DisplayServerActionResponse";
 
 type Props = {
   customer?: selectCustomerSchemaType;
@@ -74,14 +77,27 @@ export default function CustomerForm({ customer }: Props) {
     result: saveResult,
     isExecuting: isSaving,
     reset: resetSaveAction,
-  } = useAction(saveCustomerAction, {});
+  } = useAction(saveCustomerAction, {
+    onSuccess({ data }) {
+      toast.success("Success", {
+        description: data?.message,
+      });
+    },
+    onError({ error }) {
+      console.error("Error saving customer:", error);
+      toast.error("Error saving customer", {
+        description: "An unexpected error occurred.",
+      });
+    },
+  });
 
   async function submitForm(data: insertCustomerSchemaType) {
-    console.log(data);
+    executeSave(data);
   }
 
   return (
     <div className="flex flex-col gap-1 sm:px-8">
+      <DisplayServerActionResponse result={saveResult} />
       <div>
         <h2 className="text-2xl font-bold">
           {customer?.id ? "Edit Customer" : "New Customer"} Customer {customer?.id ? `${customer.id}` : "Form"}
@@ -122,10 +138,18 @@ export default function CustomerForm({ customer }: Props) {
             ) : null}
 
             <div className="flex gap-2">
-              <Button type="submit" variant="default" className="w-3/4">
-                Save
+              <Button type="submit" variant="default" className="w-3/4" disabled={isSaving}>
+                {isSaving ? <LoaderCircle className="animate-spin mr-2" /> : "Save"}
               </Button>
-              <Button type="button" title="Reset" variant="secondary" onClick={() => form.reset(defaultValues)}>
+              <Button
+                type="button"
+                title="Reset"
+                variant="secondary"
+                onClick={() => {
+                  form.reset(defaultValues);
+                  resetSaveAction();
+                }}
+              >
                 Reset
               </Button>
             </div>
