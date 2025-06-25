@@ -10,8 +10,8 @@ export const actionClient = createSafeActionClient({
     });
   },
   handleServerError(e, utils) {
-    console.error("Server Error:", e);
     const { clientInput, metadata } = utils;
+    console.log("Server Errorconstructor:", e.constructor.name);
     Sentry.captureException(e, (scope) => {
       scope.clear();
       scope.setContext("serverError", { message: e.message });
@@ -19,9 +19,10 @@ export const actionClient = createSafeActionClient({
       scope.setContext("clientInput", { clientInput });
       return scope;
     });
-    if (e.constructor.name === "DatabaseError") {
+    if (e.constructor.name === "DrizzleQueryError") {
       return "Database error occurred. Please try again later.";
     }
-    return e.message;
+    console.error("Error in action:", e);
+    return "error occurred while processing your request. Please try again later.";
   },
 });

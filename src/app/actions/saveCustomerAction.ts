@@ -1,5 +1,5 @@
 "use server";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { flattenValidationErrors } from "next-safe-action";
 import { redirect } from "next/navigation";
 
@@ -11,6 +11,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export const saveCustomerAction = actionClient
   .metadata({ actionName: "saveCustomerAction" })
+
   .schema(insertCustomerSchema, {
     handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors,
   })
@@ -20,6 +21,7 @@ export const saveCustomerAction = actionClient
     if (!isAuth) {
       redirect("/login");
     }
+
     if (customer.id === 0) {
       const result = await db
         .insert(customers)

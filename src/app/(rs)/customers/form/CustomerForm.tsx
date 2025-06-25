@@ -22,6 +22,7 @@ import { saveCustomerAction } from "@/app/actions/saveCustomerAction";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 import { DisplayServerActionResponse } from "@/components/DisplayServerActionResponse";
+import { eq, sql } from "drizzle-orm";
 
 type Props = {
   customer?: selectCustomerSchemaType;
@@ -84,7 +85,6 @@ export default function CustomerForm({ customer }: Props) {
       });
     },
     onError({ error }) {
-      console.error("Error saving customer:", error);
       toast.error("Error saving customer", {
         description: "An unexpected error occurred.",
       });
@@ -100,7 +100,7 @@ export default function CustomerForm({ customer }: Props) {
       <DisplayServerActionResponse result={saveResult} />
       <div>
         <h2 className="text-2xl font-bold">
-          {customer?.id ? "Edit Customer" : "New Customer"} Customer {customer?.id ? `${customer.id}` : "Form"}
+          {customer?.id ? "Edit Customer" : "New Customer"} {customer?.id ? `${customer.id}` : "Form"}
         </h2>
       </div>
       <Form {...form}>
