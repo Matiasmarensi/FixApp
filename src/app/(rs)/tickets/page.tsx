@@ -5,7 +5,6 @@ export const metadata = {
   title: "Tickets",
 };
 const Tickets = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
-  console.log("Tickets searchParams", searchParams);
   const { search } = await searchParams;
   if (!search) {
     const results = await getOpenTickets();

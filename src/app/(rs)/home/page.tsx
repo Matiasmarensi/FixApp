@@ -1,10 +1,11 @@
 import React from "react";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Home",
 };
 const Home = () => {
-  return <div>Home</div>;
+  redirect("/tickets");
 };
 
 export default Home;
