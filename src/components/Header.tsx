@@ -18,7 +18,6 @@ export const Header = () => {
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          <NavButton href="/tickets" label="tickets" icon={File} />
           <NavButtonMenu
             icon={File}
             label="Tickets Menu"
