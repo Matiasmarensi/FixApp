@@ -1,10 +1,17 @@
 "use client";
 import type { TicketSearchResultsType } from "@/lib/queries/getTicketSearchResults";
 
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  getPaginationRowModel,
+} from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
 import { CircleCheckIcon, CircleXIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   data: TicketSearchResultsType;
@@ -66,6 +73,12 @@ export default function TicketTable({ data }: Props) {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
@@ -106,6 +119,37 @@ export default function TicketTable({ data }: Props) {
           ))}
         </TableBody>
       </Table>
+      <div className="flex justify-between items-center">
+        <div className="flex basis-1/3 items-center">
+          <p className="whitespace-nowrap font-black">
+            {`Page ${table.getState().pagination.pageIndex + 1} of ${table.getPageCount()}`}
+            &nbsp;&nbsp;
+            {`[${table.getFilteredRowModel().rows.length} of ${
+              table.getFilteredRowModel().rows.length !== 1 ? "total results" : "result"
+            }]`}
+          </p>
+        </div>
+        <div className="space-2-1">
+          <Button
+            variant="outline"
+            onClick={() => {
+              table.previousPage();
+            }}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              table.nextPage();
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -22,7 +22,7 @@ const Tickets = async ({ searchParams }: { searchParams: { [key: string]: string
   return (
     <>
       <TicketSearch />
-      {results.length ? <TicketTable data={results} /> : null}
+      {results.length ? <TicketTable data={results} /> : <p className="text-center mt-4">No results found</p>}
     </>
   );
 };
