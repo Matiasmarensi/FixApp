@@ -7,11 +7,16 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  getFacetedUniqueValues,
 } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
 import { CircleCheckIcon, CircleXIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import Filter from "@/components/react-table/Filter";
+import { useState } from "react";
 
 type Props = {
   data: TicketSearchResultsType;
@@ -20,6 +25,8 @@ type RowType = TicketSearchResultsType[0];
 
 export default function TicketTable({ data }: Props) {
   const router = useRouter();
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   const columnHeaderArray: Array<keyof RowType> = [
     "id",
     "ticketDate",
@@ -72,6 +79,10 @@ export default function TicketTable({ data }: Props) {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnFilters,
+    },
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     initialState: {
       pagination: {
@@ -79,46 +90,57 @@ export default function TicketTable({ data }: Props) {
       },
     },
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   return (
-    <div className="mt-6 rounded-lg overflow-hidden border border-border">
-      <Table className="border">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((headers) => {
-                return (
-                  <TableHead key={headers.id} className="bg-secondary text-secondary-foreground">
-                    <div>
-                      {headers.isPlaceholder ? null : flexRender(headers.column.columnDef.header, headers.getContext())}
-                    </div>
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow
-              key={row.id}
-              className="cursor-pointer hover:bg-border/25 dark:hover:bg-ring/25"
-              onClick={() => {
-                console.log("TICKET ID", row.original.id);
+    <div className="flex flex-col gap-4">
+      <div className="mt-6 rounded-lg overflow-hidden border border-border">
+        <Table className="border">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((headers) => {
+                  return (
+                    <TableHead key={headers.id} className="bg-secondary text-secondary-foreground p-1">
+                      <div>
+                        {headers.isPlaceholder
+                          ? null
+                          : flexRender(headers.column.columnDef.header, headers.getContext())}
+                      </div>
+                      {headers.column.getCanFilter() ? (
+                        <div className="grid place-content-center">
+                          <Filter column={headers.column} />
+                        </div>
+                      ) : null}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                className="cursor-pointer hover:bg-border/25 dark:hover:bg-ring/25"
+                onClick={() => {
+                  console.log("TICKET ID", row.original.id);
 
-                router.push(`/tickets/form?ticketid=${row.original.id}`);
-              }}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} className="border">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                  router.push(`/tickets/form?ticketid=${row.original.id}`);
+                }}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id} className="border">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <div className="flex justify-between items-center">
         <div className="flex basis-1/3 items-center">
           <p className="whitespace-nowrap font-black">
@@ -130,6 +152,14 @@ export default function TicketTable({ data }: Props) {
           </p>
         </div>
         <div className="space-2-1">
+          <Button
+            variant="outline"
+            onClick={() => {
+              table.resetColumnFilters();
+            }}
+          >
+            Reset Filters
+          </Button>
           <Button
             variant="outline"
             onClick={() => {
