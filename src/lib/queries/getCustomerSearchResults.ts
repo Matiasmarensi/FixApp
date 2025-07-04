@@ -19,7 +19,8 @@ export async function getCustomerSearchResults(search: string) {
           .replace(` `, `%`)}%`}`
         //combitantion lastname and name
       )
-    );
+    )
+    .orderBy(customers.lastName);
 
   return results;
 }

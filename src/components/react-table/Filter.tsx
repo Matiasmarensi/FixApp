@@ -4,11 +4,13 @@ import { array } from "zod";
 
 type Props<T> = {
   column: Column<T, unknown>;
+  filteredRows: string[];
 };
 
-export default function Filter<T>({ column }: Props<T>) {
+export default function Filter<T>({ column, filteredRows }: Props<T>) {
   const columnFilteredValue = column.getFilterValue();
-  const sortedUniquedValues = Array.from(column.getFacetedUniqueValues().keys()).sort();
+  const uniqueFilteredValues = new Set(filteredRows);
+  const sortedUniquedValues = Array.from(uniqueFilteredValues).sort();
 
   return (
     <>
@@ -21,7 +23,7 @@ export default function Filter<T>({ column }: Props<T>) {
         type="text"
         value={(columnFilteredValue ?? "") as string}
         onChange={(value) => column.setFilterValue(value)}
-        placeholder={`Search ${[...column.getFacetedUniqueValues()].filter((array) => array[0]).length})...`}
+        placeholder={`Search... (${[uniqueFilteredValues.size]})...`}
         className="w-full  shadow border rounded bg-card"
         list={column.id + "list"}
       />

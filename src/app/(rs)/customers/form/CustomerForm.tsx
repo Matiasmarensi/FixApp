@@ -26,12 +26,11 @@ import { eq, sql } from "drizzle-orm";
 
 type Props = {
   customer?: selectCustomerSchemaType;
+
+  isManager?: boolean | undefined;
 };
 
-export default function CustomerForm({ customer }: Props) {
-  const { getPermission, getPermissions, isLoading } = useKindeBrowserClient();
-  const isManager = !isLoading && getPermission("manager")?.isGranted;
-
+export default function CustomerForm({ customer, isManager }: Props) {
   const searchParams = useSearchParams();
   const hasCustomerId = searchParams.has("customerId");
 
@@ -125,9 +124,7 @@ export default function CustomerForm({ customer }: Props) {
               {...form}
               className="h-40"
             />
-            {isLoading ? (
-              <p>Loading...</p>
-            ) : isManager && customer?.id ? (
+            {isManager && customer?.id ? (
               <CheckboxWithLabel<insertCustomerSchemaType>
                 fieldTitle="Active"
                 nameInSchema="active"

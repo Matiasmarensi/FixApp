@@ -23,7 +23,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
-          <Toaster position="top-right" richColors closeButton duration={5000} className="z-50" />
+          <Toaster position="bottom-right" richColors closeButton duration={5000} className="z-50" />
         </ThemeProvider>
       </body>
     </html>

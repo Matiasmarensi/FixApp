@@ -35,6 +35,14 @@ export default function TicketTable({ data }: Props) {
     },
   ]);
 
+  const colomnWidth = {
+    completed: 150,
+    ticketDate: 150,
+    tittle: 250,
+    tech: 255,
+    email: 225,
+  };
+
   const columnHeaderArray: Array<keyof RowType> = [
     "id",
     "ticketDate",
@@ -64,6 +72,7 @@ export default function TicketTable({ data }: Props) {
       },
       {
         id: columnName,
+        size: colomnWidth[columnName as keyof typeof colomnWidth] ?? undefined,
         header: ({ column }) => {
           return (
             <Button
@@ -132,7 +141,11 @@ export default function TicketTable({ data }: Props) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((headers) => {
                   return (
-                    <TableHead key={headers.id} className="bg-secondary text-secondary-foreground p-1">
+                    <TableHead
+                      key={headers.id}
+                      className="bg-secondary text-secondary-foreground p-1"
+                      style={{ width: headers.getSize() }}
+                    >
                       <div>
                         {headers.isPlaceholder
                           ? null
@@ -140,7 +153,12 @@ export default function TicketTable({ data }: Props) {
                       </div>
                       {headers.column.getCanFilter() ? (
                         <div className="grid place-content-center">
-                          <Filter column={headers.column} />
+                          <Filter
+                            column={headers.column}
+                            filteredRows={table
+                              .getFilteredRowModel()
+                              .rows.map((row) => row.getValue(headers.column.id))}
+                          />
                         </div>
                       ) : null}
                     </TableHead>
@@ -170,8 +188,8 @@ export default function TicketTable({ data }: Props) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-between items-center">
-        <div className="flex basis-1/3 items-center">
+      <div className="flex justify-between items-center gap-1 flex-w">
+        <div className="">
           <p className="whitespace-nowrap font-black">
             {`Page ${table.getState().pagination.pageIndex + 1} of ${table.getPageCount()}`}
             &nbsp;&nbsp;
@@ -180,41 +198,45 @@ export default function TicketTable({ data }: Props) {
             }]`}
           </p>
         </div>
-        <div className="space-2-1">
-          <Button
-            variant="outline"
-            onClick={() => {
-              table.resetSorting();
-            }}
-          >
-            Reset Sorting
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              table.resetColumnFilters();
-            }}
-          >
-            Reset Filters
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              table.previousPage();
-            }}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              table.nextPage();
-            }}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+        <div className="flex flex-row gap-1">
+          <div className="flex flex-row gap-1">
+            <Button
+              variant="outline"
+              onClick={() => {
+                table.resetSorting();
+              }}
+            >
+              Reset Sorting
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                table.resetColumnFilters();
+              }}
+            >
+              Reset Filters
+            </Button>
+          </div>
+          <div className="flex flex-row gap-1">
+            <Button
+              variant="outline"
+              onClick={() => {
+                table.previousPage();
+              }}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                table.nextPage();
+              }}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
         </div>
       </div>
     </div>

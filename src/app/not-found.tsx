@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata = {
   title: "Not Found",
@@ -18,6 +19,14 @@ export default function NotFound() {
           priority={true}
           title="not found"
         />
+      </div>
+      <div className="flex justify-center">
+        <Link
+          href="/tickets"
+          className="inline-block bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-200 hover:scale-105 transform text-center"
+        >
+          Go Home
+        </Link>
       </div>
     </div>
   );
