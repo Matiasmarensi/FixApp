@@ -4,7 +4,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = {
   // Si NO usás Turbopack, dejá esto vacío
   // Si SÍ lo usás, podés agregar: turbopack: true
-  // turbopack: true,
+  turbopack: true,
 };
 
 module.exports = withSentryConfig(nextConfig, {
