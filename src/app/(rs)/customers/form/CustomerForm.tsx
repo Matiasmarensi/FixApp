@@ -22,7 +22,7 @@ import { saveCustomerAction } from "@/app/actions/saveCustomerAction";
 import { toast } from "sonner";
 import { LoaderCircle } from "lucide-react";
 import { DisplayServerActionResponse } from "@/components/DisplayServerActionResponse";
-import { eq, sql } from "drizzle-orm";
+import { useEffect } from "react";
 
 type Props = {
   customer?: selectCustomerSchemaType;
@@ -71,6 +71,10 @@ export default function CustomerForm({ customer, isManager }: Props) {
     defaultValues,
     mode: "onBlur", // o "onChange"
   });
+
+  useEffect(() => {
+    form.reset(hasCustomerId ? defaultValues : emptyValues);
+  }, [searchParams.get("customerId")]);
 
   const {
     execute: executeSave,
