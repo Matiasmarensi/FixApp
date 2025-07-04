@@ -1,6 +1,7 @@
 import { Backbutton } from "@/components/Backbutton";
 import { getCustomer } from "@/lib/queries/getCustomer";
 import CustomerForm from "./CustomerForm";
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
   const { customerId } = await searchParams;

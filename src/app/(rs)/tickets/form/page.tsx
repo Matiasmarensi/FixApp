@@ -8,8 +8,8 @@ import { Users, init as kindeInit } from "@kinde/management-api-js";
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
-  const customerId = searchParams?.customerId;
-  const ticketId = searchParams?.ticketid;
+  const { customerId } = searchParams;
+  const { ticketId } = searchParams;
 
   if (customerId) {
     return {
@@ -35,8 +35,8 @@ export default async function TicketFormPage({
 }) {
   try {
     // Accede a las propiedades directamente, sin 'await'
-    const customerId = searchParams?.customerId;
-    const ticketId = searchParams?.ticketid;
+    const customerId = await searchParams?.customerId;
+    const ticketId = await searchParams?.ticketid;
 
     // Si no hay customerId o ticketId, devuelve un mensaje de error y regresa
     if (!customerId && !ticketId) {

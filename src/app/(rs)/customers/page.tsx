@@ -1,6 +1,7 @@
 import React from "react";
 import CustomerSearch from "./CustomerSearch";
 import { getCustomerSearchResults } from "@/lib/queries/getCustomerSearchResults";
+import CustomerTable from "./CustomerTable";
 
 export const metadata = {
   title: "Customers",
@@ -16,7 +17,7 @@ const Customers = async ({ searchParams }: { searchParams: { [key: string]: stri
   return (
     <>
       <CustomerSearch />
-      <p>{JSON.stringify(results)}</p>
+      {results.length ? <CustomerTable data={results} /> : <p className="text-center mt-4">No results found</p>}
     </>
   );
 };
