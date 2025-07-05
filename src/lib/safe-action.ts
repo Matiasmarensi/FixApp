@@ -2,6 +2,7 @@ import { createSafeActionClient } from "next-safe-action";
 
 import { z } from "zod";
 import * as Sentry from "@sentry/nextjs";
+import type { NeonDbError } from "@neondatabase/serverless";
 
 export const actionClient = createSafeActionClient({
   defineMetadataSchema() {
@@ -11,6 +12,18 @@ export const actionClient = createSafeActionClient({
   },
   handleServerError(e, utils) {
     const { clientInput, metadata } = utils;
+
+    const originalError = e.cause ?? e;
+
+    if (originalError.constructor.name === "NeonDbError") {
+      const { code, detail } = originalError as NeonDbError;
+
+      if (code === "23505") {
+        return `Unique entry already exists. ${detail}`;
+      }
+      return "Database error occurred. Please try again later.";
+    }
+
     console.log("Server Errorconstructor:", e.constructor.name);
     Sentry.captureException(e, (scope) => {
       scope.clear();
@@ -19,10 +32,7 @@ export const actionClient = createSafeActionClient({
       scope.setContext("clientInput", { clientInput });
       return scope;
     });
-    if (e.constructor.name === "DrizzleQueryError") {
-      return "Database error occurred. Please try again later.";
-    }
-    console.error("Error in action:", e);
-    return "error occurred while processing your request. Please try again later.";
+
+    return "An error occurred while processing your request. Please try again later.";
   },
 });
